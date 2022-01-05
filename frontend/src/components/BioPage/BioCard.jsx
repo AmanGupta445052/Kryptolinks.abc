@@ -45,7 +45,7 @@ const BioCard = () => {
           color="#00BFFF"
           height={28}
           width={60}
-          color={"White"}
+          color={"white"}
         />
       </div>
     );

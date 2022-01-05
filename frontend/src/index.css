@@ -43,12 +43,13 @@
 @keyframes fadeIn {
   0% {
     transform: translateY(5px);
-    opacity:0;
-    display:hidden;
+    opacity: 0;
+    display: hidden;
   }
   100% {
     transform: translateY(0);
-    opacity:1;
-    display:flex;
+    opacity: 1;
+    display: flex;
   }
 }
+
