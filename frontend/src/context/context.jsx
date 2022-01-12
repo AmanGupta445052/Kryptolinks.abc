@@ -39,7 +39,6 @@ export const UserProvider = ({ children }) => {
       console.log("Make sure you have metamask!");
       return;
     } else {
-      console.log("We have the ethereum object", ethereum);
       ethereum.request({ method: "eth_accounts" }).then(async (accounts) => {
         if (accounts.length !== 0) {
           const account = accounts[0];

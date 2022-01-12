@@ -1,17 +1,38 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { UserContext } from "../../context/context";
 import { addressShortener } from "../utils/addressShortener";
+import {ImMenu} from "react-icons/im"
 const NavBar = () => {
-  const {connectWallet,formData} = useContext(UserContext);
-  const {walletAddress} = formData;
+  const { connectWallet, formData } = useContext(UserContext);
+  const { walletAddress } = formData;
+  const [expand,setExpand] = useState(false)
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+      width,
+      height
+    };
+  }
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <div className="flex bg-white shadow-md py-4 px-6 flex-col sm:flex-row justify-between">
-      <Link to="/" className="">
-        <img src={logo} alt={logo} />
-      </Link>
-      <div className="flex space-y-2 sm:space-y-0 sm:space-x-4  items-start sm:items-center flex-col sm:flex-row">
+      <div className="flex justify-between items-center">
+        <Link to="/" className="">
+          <img src={logo} alt={logo} />
+        </Link>
+        <div className="flex sm:hidden" onClick={() => setExpand(!expand)}><ImMenu fontSize={25} className="text-indigo-700"/></div>
+      </div>
+      <div className={`${expand ||  windowDimensions.width > 640 ? "flex" : "hidden"} space-y-2 sm:space-y-0 sm:space-x-4  items-start sm:items-center flex-col sm:flex-row pt-3 sm:pt-0`}>
         <Link
           to={"/"}
           className="text-xl text-gray-400 font-normal hover:text-blue-600"
@@ -25,11 +46,21 @@ const NavBar = () => {
           FAQ
         </Link>
 
-        {!walletAddress ? <div onClick={connectWallet} className="text-xl text-gray-400 font-medium border-2 py-[0.5rem] px-[1rem] border-gray-400 rounded-full hover:text-white hover:bg-blue-600">
-          <p>Connect Wallet</p>
-        </div> : <div onClick={connectWallet} className="cursor-pointer text-xl text-gray-400 font-medium border-2 py-[0.5rem] px-[1rem] border-gray-400 rounded-full">
-          <p>{addressShortener(walletAddress)}</p>
-        </div> }
+        {!walletAddress ? (
+          <div
+            onClick={connectWallet}
+            className="text-xl text-gray-400 font-medium border-2 py-[0.5rem] px-[1rem] border-gray-400 rounded-full hover:text-white hover:bg-blue-600"
+          >
+            <p>Connect Wallet</p>
+          </div>
+        ) : (
+          <div
+            onClick={connectWallet}
+            className="cursor-pointer text-xl text-gray-400 font-medium border-2 py-[0.5rem] px-[1rem] border-gray-400 rounded-full"
+          >
+            <p>{addressShortener(walletAddress)}</p>
+          </div>
+        )}
       </div>
     </div>
   );

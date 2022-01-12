@@ -6,6 +6,7 @@ import { ProfileProvider } from "./context/profile";
 import Dashboard from "./pages/Dashboard";
 import GetStarted from "./pages/GetStarted";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 import UserBioPage from "./pages/UserBioPage";
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/getstarted" element={<GetStarted />} />
-        <Route path="/user" element={<UserBioPage />} />
+        <Route path="/:user" element={<UserBioPage />} />
         <Route
           path="/dashboard/analytics"
           element={
@@ -35,6 +36,7 @@ function App() {
             </ProfileProvider>
           }
         />
+        <Route path="/oops" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
