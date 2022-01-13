@@ -5,16 +5,16 @@ import { ethPriceInINR } from "../utils/ethPriceInINR";
 import { UserContext } from "../../context/context";
 import Loader from "react-loader-spinner";
 
-const BioCard = ({userInfo}) => {
+const BioCard = ({ userInfo, user }) => {
   const {
     connectPayerWallet,
     sendTransaction,
     payerAddress,
     checkIfPayerWalletIsConnected,
-    isPaymentCompleted,
     isPaymentLoading,
   } = useContext(UserContext);
-  const { name, description, pfpLink, walletAddress, githubLink, twitterLink } = userInfo;
+  const { name, description, pfpLink, walletAddress, githubLink, twitterLink } =
+    userInfo;
   const [ethPriceInUSD, setEthPriceInUSD] = useState(0);
   const [amount, setAmount] = useState(0);
 
@@ -22,7 +22,8 @@ const BioCard = ({userInfo}) => {
     return (
       <div
         onClick={() => {
-          if (amount && walletAddress) sendTransaction(walletAddress, amount);
+          if (amount && walletAddress)
+            sendTransaction(walletAddress, amount, user);
         }}
         className="bg-blue-600 hover:bg-blue-500 text-center text-white font-bold text-lg  py-3  rounded-lg mx-auto "
       >

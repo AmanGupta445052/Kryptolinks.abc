@@ -5,8 +5,10 @@ module.exports = {
     extend: {
       fontFamily: {
         inter: ["Inter"],
+        clash: ["Clash Display"]
       },
     },
   },
   plugins: [require('@tailwindcss/forms'),],
 };
+

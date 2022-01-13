@@ -87,7 +87,7 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const sendTransaction = async (addressTo, amount) => {
+  const sendTransaction = async (addressTo, amount, userSlug) => {
     try {
       const { ethereum } = window;
       if (ethereum) {
@@ -109,8 +109,14 @@ export const UserProvider = ({ children }) => {
         while (!txn_test.blockNumber) {
           txn_test = await provider.getTransaction(payment);
         }
+        // fetch("http://localhost:8000/api/transaction/add",{
+        //   method:"POST"
+        // });
         setIsPaymentLoading(false);
         setIsPaymentCompleted(true);
+        setTimeout(() => {
+          setIsPaymentCompleted(false)
+        },5000);
       } else {
         console.log("No ethereum object");
       }

@@ -25,7 +25,7 @@ const NavBar = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   return (
-    <div className="flex bg-white shadow-md py-4 px-6 flex-col sm:flex-row justify-between">
+    <div className="flex bg-white shadow-md py-4 px-6 flex-col sm:flex-row justify-between header-gradient-2 font-clash">
       <div className="flex justify-between items-center">
         <Link to="/" className="">
           <img src={logo} alt={logo} />
@@ -35,13 +35,13 @@ const NavBar = () => {
       <div className={`${expand ||  windowDimensions.width > 640 ? "flex" : "hidden"} space-y-2 sm:space-y-0 sm:space-x-4  items-start sm:items-center flex-col sm:flex-row pt-3 sm:pt-0`}>
         <Link
           to={"/"}
-          className="text-xl text-gray-400 font-normal hover:text-blue-600"
+          className="text-xl text-gray-200 font-normal hover:text-white"
         >
           Discord
         </Link>
         <Link
           to={"/"}
-          className="text-xl text-gray-400 font-normal hover:text-blue-600"
+          className="text-xl text-gray-200 font-normal hover:text-white"
         >
           FAQ
         </Link>
@@ -49,14 +49,14 @@ const NavBar = () => {
         {!walletAddress ? (
           <div
             onClick={connectWallet}
-            className="text-xl text-gray-400 font-medium border-2 py-[0.5rem] px-[1rem] border-gray-400 rounded-full hover:text-white hover:bg-blue-600"
+            className="text-xl text-gray-200 font-medium border-2 py-[0.5rem] px-[1rem] border-gray-200 rounded-full hover:text-white hover:bg-blue-600/40"
           >
             <p>Connect Wallet</p>
           </div>
         ) : (
           <div
             onClick={connectWallet}
-            className="cursor-pointer text-xl text-gray-400 font-medium border-2 py-[0.5rem] px-[1rem] border-gray-400 rounded-full"
+            className="cursor-pointer text-xl text-gray-200 font-medium border-2 py-[0.5rem] px-[1rem] border-gray-200 rounded-full"
           >
             <p>{addressShortener(walletAddress)}</p>
           </div>

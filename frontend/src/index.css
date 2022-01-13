@@ -2,13 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  font-family:"Clash Display","Inter";
+}
 .header-gradient {
   background: #1fa2ff; /* fallback for old browsers */
   background: linear-gradient(to right, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-	background-size: 400% 400%;
+  background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-	animation: gradient 5s ease infinite;
+  animation: gradient 5s ease infinite;
+}
+.header-gradient-2 {
+  background: #1fa2ff; /* fallback for old browsers */
+  background: linear-gradient(to right, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  /* -webkit-background-clip: text; */
+  /* -webkit-text-fill-color: transparent; */
+  animation: gradient 5s ease infinite;
 }
 
 .bio-page-gradient {
@@ -45,13 +56,13 @@
 }
 
 @keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
