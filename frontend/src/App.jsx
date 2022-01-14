@@ -17,7 +17,7 @@ function App() {
         <Route path="/getstarted" element={<GetStarted />} />
         <Route path="/:user" element={<UserBioPage />} />
         <Route
-          path="/dashboard/analytics"
+          path="/dashboard/home"
           element={
             <ProfileProvider>
               <Dashboard>

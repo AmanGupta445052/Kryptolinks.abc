@@ -1,17 +1,50 @@
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillGithub, AiOutlineTwitter } from "react-icons/ai";
 import { UserContext } from "../../context/context";
 
 const Forms = () => {
-  const { formData, setFormData,checkIfWalletIsConnected,connectWallet } = useContext(UserContext);
-  const { link, walletAddress, pfpLink, twitter, github, name, desc, } =
+  const navigate = useNavigate();
+  const { formData, setFormData, checkIfWalletIsConnected, connectWallet } =
+    useContext(UserContext);
+  const { link, walletAddress, pfpLink, twitter, github, name, desc } =
     formData;
   const isFormFullyFilled =
     link && walletAddress && pfpLink && twitter && github && name && desc;
 
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const createUser = (user) => {};
+  const createLink = () => {
+    if (isFormFullyFilled) {
+      fetch("http://localhost:8000/api/user/create", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          linkAddress: link,
+          walletAddress,
+          pfpLink,
+          description: desc,
+          githubLink: github,
+          twitterLink: twitter,
+        }),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          if (data && !data.error){
+            return navigate("/dashboard/home")
+          }
+          return console.log(data.msg)
+        })
+        .catch((err) => console.log(err));
+    }
   };
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -93,7 +126,10 @@ const Forms = () => {
                 readOnly
               />
             ) : (
-              <div className="border-2 border-blue-600 hover:bg-blue-600 hover:text-white text-blue-600 text-center text-md font-bold   p-2.5 w-full rounded-xl" onClick={() => connectWallet()}>
+              <div
+                className="border-2 border-blue-600 hover:bg-blue-600 hover:text-white text-blue-600 text-center text-md font-bold   p-2.5 w-full rounded-xl"
+                onClick={() => connectWallet()}
+              >
                 Connect Wallet
               </div>
             )}
@@ -124,17 +160,17 @@ const Forms = () => {
             </div>
           </div>
         </div>
-        <Link
-          to="/"
+        <div
+          onClick={createLink}
           aria-disabled
           className={`${
             isFormFullyFilled
-              ? "bg-blue-600 "
+              ? "bg-blue-600 hover:bg-blue-500 "
               : "cursor-not-allowed bg-gray-300 pointer-events-none "
-          }text-center text-md text-white font-bold p-3 w-full inline-block   mt-6`}
+          }text-center text-md text-white font-semibold p-3 w-full inline-block   mt-6`}
         >
           Create Link
-        </Link>
+        </div>
       </form>
     </div>
   );

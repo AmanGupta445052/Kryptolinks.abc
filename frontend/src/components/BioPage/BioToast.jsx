@@ -16,7 +16,7 @@ const BioToast = () => {
         data-mdb-autohide="false"
       >
         <div className="bg-green-500 flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-green-400 rounded-lg">
-          <p className="font-bold text-white flex items-center">
+          <p className="font-semibold text-white flex items-center">
             <svg
               aria-hidden="true"
               focusable="false"

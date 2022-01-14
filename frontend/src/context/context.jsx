@@ -87,12 +87,13 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const sendTransaction = async (addressTo, amount, userSlug) => {
+  const sendTransaction = async (addressTo, amount) => {
     try {
       const { ethereum } = window;
       if (ethereum) {
         const parsedAmount = ethers.utils.parseEther(amount);
         setIsPaymentLoading(true);
+        const timestamp = Date();
         const payment = await ethereum.request({
           method: "eth_sendTransaction",
           params: [
@@ -106,12 +107,17 @@ export const UserProvider = ({ children }) => {
         });
         const provider = new ethers.providers.Web3Provider(ethereum);
         let txn_test = await provider.getTransaction(payment);
+        fetch("http://localhost:8000/api/transaction/add", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({addressTo,payerAddress,amount,timestamp}),
+        })
         while (!txn_test.blockNumber) {
           txn_test = await provider.getTransaction(payment);
         }
-        // fetch("http://localhost:8000/api/transaction/add",{
-        //   method:"POST"
-        // });
         setIsPaymentLoading(false);
         setIsPaymentCompleted(true);
         setTimeout(() => {

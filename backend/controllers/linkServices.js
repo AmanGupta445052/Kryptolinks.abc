@@ -39,16 +39,15 @@ exports.getUserInfo = (req, res) => {
 // TODO: ADD TRANSACTIONS
 exports.addTransactionInfo = async (req, res) => {
   try {
-    console.log(req.body);
-    const { fromAddress, amount, timestamp, slug } = req.body;
-    User.findOne({ linkAddress: slug }, (err, user) => {
+    const { addressTo, amount, timestamp, payerAddress } = req.body;
+    User.findOne({ walletAddress: addressTo }, (err, user) => {
       if (err)
         return res
           .status(400)
           .json({ error: err, msg: "User not found in DB" });
       const { id, transactions } = user;
       const transactionList = transactions;
-      const newTransaction = { fromAddress, amount, timestamp };
+      const newTransaction = { payerAddress, amount, timestamp };
       transactionList.push(newTransaction);
       return User.findByIdAndUpdate(
         id,

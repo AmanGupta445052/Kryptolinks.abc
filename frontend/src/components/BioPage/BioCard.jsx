@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import { AiOutlineTwitter, AiOutlineGithub } from "react-icons/ai";
 import { SiEthereum } from "react-icons/si";
 import { ethPriceInINR } from "../utils/ethPriceInINR";
@@ -22,10 +22,9 @@ const BioCard = ({ userInfo, user }) => {
     return (
       <div
         onClick={() => {
-          if (amount && walletAddress)
-            sendTransaction(walletAddress, amount, user);
+          if (amount && walletAddress) sendTransaction(walletAddress, amount);
         }}
-        className="bg-blue-600 hover:bg-blue-500 text-center text-white font-bold text-lg  py-3  rounded-lg mx-auto "
+        className="bg-blue-600 hover:bg-blue-500 text-center text-white font-semibold text-lg  py-3  rounded-lg mx-auto "
       >
         Pay Now
       </div>
@@ -38,17 +37,15 @@ const BioCard = ({ userInfo, user }) => {
         onClick={() => {
           if (amount && walletAddress) sendTransaction(walletAddress, amount);
         }}
-        className="bg-blue-600 hover:bg-blue-500 text-center text-white font-bold text-lg  py-3  rounded-lg mx-auto flex justify-center "
+        className="bg-blue-600 hover:bg-blue-500 text-center text-white font-semibold text-lg  py-3  rounded-lg mx-auto flex justify-center "
       >
-        <Loader
-          type="TailSpin"
-          color="#00BFFF"
-          height={28}
-          width={60}
-          color={"white"}
-        />
+        <Loader type="TailSpin" color="#00BFFF" height={28} width={60} />
       </div>
     );
+  };
+
+  const EthereumPriceDiv = () => {
+    return <div>₹{ethPriceInINR(amount, ethPriceInUSD)}</div>;
   };
 
   useEffect(() => {
@@ -74,7 +71,7 @@ const BioCard = ({ userInfo, user }) => {
         </a>
       </div>
       <h1 className="text-xl font-semibold text-black/80">{name}</h1>
-      <p className="text-sm font-semibold text-black/40">{description}</p>
+      <p className="text-sm font-medium text-black/40">{description}</p>
       <div className="flex mt-4 mb-1">
         <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300 font-medium">
           ETH <SiEthereum className="text-xl" />
@@ -88,7 +85,7 @@ const BioCard = ({ userInfo, user }) => {
         />
       </div>
       <div className="flex justify-between font-medium text-gray-400/80 mb-4">
-        <div>₹{ethPriceInINR(amount, ethPriceInUSD)}</div>
+        <EthereumPriceDiv />
         <div>1 ETH ~= ${ethPriceInUSD}</div>
       </div>
 
@@ -103,7 +100,7 @@ const BioCard = ({ userInfo, user }) => {
           onClick={() => {
             connectPayerWallet();
           }}
-          className="bg-blue-600 hover:bg-blue-500 text-center text-white font-bold text-lg  py-3  rounded-lg mx-auto "
+          className="bg-blue-600 hover:bg-blue-500 text-center text-white font-semibold text-lg  py-3  rounded-lg mx-auto "
         >
           Connect Wallet
         </div>

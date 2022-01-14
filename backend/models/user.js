@@ -11,11 +11,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       maxlength: 12,
+      unique:true
     },
     walletAddress: {
       type: String,
       maxlength: 42,
       required: true,
+      unique:true
     },
     description: {
       type: String,

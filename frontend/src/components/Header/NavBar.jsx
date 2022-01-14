@@ -27,10 +27,10 @@ const NavBar = () => {
   return (
     <div className="flex bg-white shadow-md py-4 px-6 flex-col sm:flex-row justify-between header-gradient-2 font-clash">
       <div className="flex justify-between items-center">
-        <Link to="/" className="">
-          <img src={logo} alt={logo} />
+        <Link to="/" className="text-3xl font-bold text-white">gm.link
+          {/* <img src={logo} alt={logo} /> */}
         </Link>
-        <div className="flex sm:hidden" onClick={() => setExpand(!expand)}><ImMenu fontSize={25} className="text-indigo-700"/></div>
+        <div className="flex sm:hidden" onClick={() => setExpand(!expand)}><ImMenu fontSize={25} className="text-white"/></div>
       </div>
       <div className={`${expand ||  windowDimensions.width > 640 ? "flex" : "hidden"} space-y-2 sm:space-y-0 sm:space-x-4  items-start sm:items-center flex-col sm:flex-row pt-3 sm:pt-0`}>
         <Link

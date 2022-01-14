@@ -1,25 +1,49 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AiFillGithub, AiOutlineTwitter } from "react-icons/ai";
-import { Link } from "react-router-dom";
 import { ProfileContext } from "../../context/profile";
-
+import {useNavigate} from "react-router-dom"
 const EditProfile = () => {
-    const {setActiveTab} = useContext(ProfileContext);
-    useEffect(() => {
-        setActiveTab("edit")
-      },[])
-    const [profileDetails, setProfileDetails] = useState({
-        name: "",
-        desc: "",
-        pfpLink: "",
-        github: "",
-        twitter: "",
-      });
-  const { pfpLink, twitter, github, name, desc } =
-    profileDetails;
-  const isFormFullyFilled =
-      pfpLink && twitter && github && name && desc;
+  const navigate = useNavigate();
+  const { setActiveTab, profile } = useContext(ProfileContext);
+  useEffect(() => {
+    setActiveTab("edit");
+    setProfileDetails({
+      name: profile.name,
+      desc: profile.description,
+      pfpLink: profile.pfpLink,
+      github: profile.githubLink,
+      twitter: profile.twitterLink,
+      walletAddress: profile.walletAddress,
+    });
+  }, [profile]);
+  const [profileDetails, setProfileDetails] = useState({});
+  const { pfpLink, twitter, github, name, desc,walletAddress } = profileDetails;
+  const isFormFullyFilled = pfpLink && twitter && github && name && desc;
 
+  const editProfile = () => {
+    fetch("http://localhost:8000/api/user/update", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        pfpLink,
+        twitter,
+        github,
+        name,
+        desc,
+        walletAddress
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && !data.error){
+          navigate(`/${profile.linkAddress}`)
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   const changeHandler = (e) => {
     setProfileDetails({ ...profileDetails, [e.target.name]: e.target.value });
   };
@@ -35,6 +59,7 @@ const EditProfile = () => {
               <input
                 type="text"
                 name="name"
+                value={name || " "}
                 autoComplete="off"
                 onChange={changeHandler}
                 className="rounded-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
@@ -47,6 +72,7 @@ const EditProfile = () => {
               <input
                 type="text"
                 name="desc"
+                value={desc || " "}
                 onChange={changeHandler}
                 className="rounded-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                 maxLength="100"
@@ -58,14 +84,12 @@ const EditProfile = () => {
               Profile Image Link
             </label>
             <div className="flex">
-              <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300 font-medium">
-                https://
-              </span>
               <input
                 type="text"
                 name="pfpLink"
+                value={pfpLink || " "}
                 onChange={changeHandler}
-                className="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                className="rounded-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
               />
             </div>
           </div>
@@ -78,6 +102,7 @@ const EditProfile = () => {
               <input
                 type="text"
                 name="github"
+                value={github || " "}
                 onChange={changeHandler}
                 className="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
               />
@@ -89,23 +114,25 @@ const EditProfile = () => {
               <input
                 type="text"
                 name="twitter"
+                value={twitter || " "}
                 onChange={changeHandler}
                 className="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
               />
             </div>
           </div>
         </div>
-        <Link
+        <div
+          onClick={editProfile}
           to="/"
           aria-disabled
           className={`${
             isFormFullyFilled
-              ? "bg-blue-600 "
+              ? "bg-blue-600 hover:bg-blue-500 "
               : "cursor-not-allowed bg-gray-300 pointer-events-none "
-          }text-center text-md text-white font-bold p-3 w-full inline-block   mt-6`}
+          }text-center text-md text-white font-semibold p-3 w-full inline-block   mt-6`}
         >
           Update Profile
-        </Link>
+        </div>
       </form>
     </div>
   );
